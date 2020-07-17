@@ -20,9 +20,12 @@
             <form class="action-form">
                 <input class="form-cm-input" type="number" placeholder="3.14" value="1" min=".05" step=".05" max="10">
                 <span class="cm-span">CM</span>
-
-                <input type="radio" id="draw" name="draw-setting" value="Draw">
-                <input type="radio" id="no-draw" name="draw-setting" value="No-Draw">
+                <div class="radio-btts-container">
+                    <input class="radio-bttn" checked="checked" type="radio" id="draw" name="draw-setting" value="Draw">
+                    <label for="draw">Draw</label>
+                    <input class="radio-bttn" type="radio" id="no-draw" name="draw-setting" value="No-Draw">
+                    <label for="no-draw">No-Draw</label>
+                </div>
 
                 <select class="form-select-direc">
                     <option value="up">up</option>
@@ -36,6 +39,16 @@
         <p class="description-p">Add Actions for them to be displayed here</p>
 
         <div class="action-display-container">
+            <div class="action-box">
+                <!--later wanna add a way to rearraneg-->
+                <p class="action-num">1</p>
+
+                <div class="action-desc">
+                    <p class="action-draw">DRAW</p>
+                    <p class="action-len">5 CM</p>
+                    <p class="action-direc">UP</p>
+                </div>
+            </div>
         </div>
 
         <button class="run-actions-butt">Execute This Actions!</button>
@@ -43,6 +56,8 @@
 
 
     </div>
+
+    <script src="clientMain.js"></script>
 </body>
 
 </html>
