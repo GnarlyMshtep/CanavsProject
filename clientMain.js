@@ -7,7 +7,11 @@ const distInp = document.querySelector(".form-cm-input");
 const drawBoolInp = document.querySelector(".radio-bttn"); //gets only the first radio  button
 const selDirInput = document.querySelector(".form-select-direc");
 const actDispBox = document.querySelector(".action-display-container");
-const ctx = canvas.getContext('2D');
+const ctx = document.querySelector(".canvas-display").getContext("2d");
+const canActHei = 3;
+const canActWid = 3;
+
+
 let canPos = {
     'posX': canvas.clientWidth / 2,
     'posY': canvas.clientHeight / 2
@@ -20,7 +24,7 @@ let actions = [];
 addActionButt.addEventListener('click', addAction, false);
 launchActionsButt.addEventListener('click', launchActions, false);
 
-//musr style and deploy html of action
+//able deletion of action
 
 function addAction() {
     /*do stuff when action is added 
@@ -31,8 +35,8 @@ function addAction() {
     let action = getFormData() //return an object {distance float, drawBool, direction string}
     console.log(action);
     actions.push(action);
-    action.addToHtml();
-    action.moveOnCanvas()
+    refreshHtmlActions();
+    // action.moveOnCanvas()
 }
 
 
@@ -53,8 +57,20 @@ function getFormData() {
 }
 
 function initCanvas() {
+    console.log(ctx);
     ctx.fillStyle = '#9E768F';
-    ctx.moveTo(canPos.posX, posY);
+    ctx.moveTo(canPos.posX, canPos.posY);
+}
+
+function refreshHtmlActions() {
+    actDispBox.innerHTML = ""; //delete everything in the box
+
+    //every time an action is added or popped from
+    // actions this should be invoked to redraw the actions\
+
+    for (let i = 0; i < actions.length; i++) {
+        actDispBox.innerHTML += (actions[i].toHtmlString(i + 1));
+    }
 }
 
 class Action {
@@ -65,22 +81,47 @@ class Action {
         this.len = length0;
         this.draw = draw0;
         this.direc = direction0;
-    }
-
-    addToHtml() {
-
+        this.drawStr = this.draw ? "DRAW" : "NO DRAW";
     }
 
     toPost() {
 
     }
 
-    moveOnCanvas(){
+    moveOnCanvas() {
         updateCanPos();
-        if(this.draw){
-            ctx.LineTo(canvas)
+        if (this.draw) {
+            ctx.LineTo(canPos.posX, canPos.posY);
         }
     }
 
-    
+    toHtmlString(num) {
+        return `<div class="action-box">
+        <!--later wanna add a way to rearraneg-->
+        <span class="action-num">` + String(num) + `</span>
+        <span class="delete-action-x">X</span>
+
+        <div class="action-desc">
+            <p class="action-draw">` + this.drawStr + `</p>
+            <p class="action-len">` + String(this.len) + ` CM</p>
+            <p class="action-direc">` + (this.direc).toUpperCase() + `</p>
+        </div>
+    </div> 
+    `
+    }
+
 }
+
+/* 
+<div class="action-box">
+    <!--later wanna add a way to rearraneg-->
+    <span class="action-num">1</span>
+    <span class="delete-action-x">X</span>
+
+    <div class="action-desc">
+        <p class="action-draw">DRAW</p>
+        <p class="action-len">5 CM</p>
+        <p class="action-direc">UP</p>
+    </div>
+</div>
+*/
