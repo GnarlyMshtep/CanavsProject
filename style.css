@@ -27,9 +27,10 @@ body {
 }
 
 .canvas-display {
+    box-sizing: content-box;
     background-color: white;
-    width: calc(2*14vw);
-    height: calc(2*8.5vw);
+    width: calc(8*3vw);
+    height: calc(7*3vw);
     display: block;
     margin: 5vh auto 5vh;
 
@@ -161,7 +162,7 @@ input[type="radio"]:checked+label {
 .action-box {
     max-width: 7.5em;
     min-width: 7.5em;
-    height: 12vh;
+    height: 13vh;
     padding: .3vw;
     margin: 10px;
     border-radius: 3px;

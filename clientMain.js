@@ -8,15 +8,15 @@ const drawBoolInp = document.querySelector(".radio-bttn"); //gets only the first
 const selDirInput = document.querySelector(".form-select-direc");
 const actDispBox = document.querySelector(".action-display-container");
 const ctx = document.querySelector(".canvas-display").getContext("2d");
-const canActHei = 3;
-const canActWid = 3;
+const canActHei = 7;
+const canActWid = 8;
+let invalidPosPresent = false;
 
 
 let canPos = {
-    'posX': canvas.clientWidth / 2,
-    'posY': canvas.clientHeight / 2
+    'posX': canvas.offsetWidth / 2,
+    'posY': canvas.offsetHeight / 2
 };
-initCanvas();
 
 let actions = [];
 
@@ -36,6 +36,7 @@ function addAction() {
     console.log(action);
     actions.push(action);
     refreshHtmlActions();
+    refreshCanvasDisplay();
     // action.moveOnCanvas()
 }
 
@@ -45,6 +46,10 @@ function launchActions() {
     /*do stuff when actions are added
         1.convert actions to HTTP post format
         2.send to the server
+
+        send the first action
+        await confirmation that its done
+        send the second
     */
 }
 
@@ -57,9 +62,41 @@ function getFormData() {
 }
 
 function initCanvas() {
-    console.log(ctx);
-    ctx.fillStyle = '#9E768F';
+    canPos.posX = canvas.offsetWidth / 2;
+    canPos.posY = canvas.offsetHeight / 2;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height); //clear html5 canvas
+
+    ctx.fillStyle = "green";
+    ctx.lineWidth = 5;
+
+    ctx.beginPath();    
     ctx.moveTo(canPos.posX, canPos.posY);
+}
+
+function refreshCanvasDisplay() {
+    initCanvas(); //init canvas to middle and no actions
+
+    for (let i = 0; i < actions.length; i++) { //run thru all actions
+        actions[i].moveCtxPos(); //move the canvas position but dont make the change on the canvas quite yes
+
+        if (canPos.posX < 0 || canPos.posY < 0) { //validation for too small
+            invalidPosPresent = true;
+            console.error("action number " + i + "has existed the canvas boundery (canPos.posX<0||canPos.posY<0)");
+        }
+        if (canPos.posX > canvas.offsetWidth || canPos.posY > canvas.offsetHeight) { //validation for too big
+            invalidPosPresent = true;
+            console.error("action number " + i + "has existed the canvas boundery (canPos.posX > canvas.offsetWidth || canPos.posY > canvas.offsetHeight)");
+        } else if (actions[i].draw) { //draw if draw
+            ctx.lineTo(canPos.posX, canPos.posY);
+            console.log("invoked draw");
+        } else if (!(actions[i].draw)) { //move if no draw and error
+            ctx.moveTo(canPos.posX, canPos.posY);
+        }
+        invalidPosPresent = false;
+        ctx.stroke()
+    }
+
 }
 
 function refreshHtmlActions() {
@@ -88,10 +125,24 @@ class Action {
 
     }
 
-    moveOnCanvas() {
-        updateCanPos();
-        if (this.draw) {
-            ctx.LineTo(canPos.posX, canPos.posY);
+    moveCtxPos() {
+        let pxLen = (3 / 100) * window.innerWidth * this.len;
+        console.log("pxLen is: " + pxLen);
+        switch (this.direc) {
+            case "up":
+                canPos.posY -= pxLen;
+                break;
+            case "right":
+                canPos.posX -= pxLen;
+                break;
+            case "down":
+                canPos.posY += pxLen;
+                break;
+            case "left":
+                canPos.posX -= pxLen;
+                break;
+            default:
+                console.log("Something isn't working, an action with no direc entered the array.");
         }
     }
 
