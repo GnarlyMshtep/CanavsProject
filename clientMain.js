@@ -29,11 +29,20 @@ let lastCanPos = {
 
 let actions = [];
 
-
+//event listeners
 addActionButt.addEventListener('click', addAction, false);
 launchActionsButt.addEventListener('click', launchActions, false);
-
+actDispBox.addEventListener('click', deleteEvent, false)
 //able deletion of action
+
+function deleteEvent(e) {
+    if (e.target !== e.currentTarget) {
+        if (e.target.className === 'delete-action-x') {
+            actions.splice(e.target.parentNode.id, 1);
+            refreshHtmlActions(refreshCanvasDisplay());
+        }
+    }
+}
 
 function addAction() {
     /*do stuff when action is added 
@@ -47,8 +56,6 @@ function addAction() {
     refreshHtmlActions(refreshCanvasDisplay()); //refresh canvas display return int for number of 
     //actions that did not violate the canvas bounderies.
 }
-
-
 
 function launchActions() {
     /*do stuff when actions are added
@@ -114,7 +121,7 @@ function refreshHtmlActions(numOfActionsNotViolateCanBoundery) {
     // actions this should be invoked to redraw the actions\
 
     for (let i = 0; i < numOfActionsNotViolateCanBoundery; i++) {
-        actDispBox.innerHTML += (actions[i].toHtmlString(i + 1));
+        actDispBox.innerHTML += (actions[i].toHtmlString(i));
     }
 }
 
@@ -160,7 +167,7 @@ class Action {
     }
 
     toHtmlString(num) {
-        return `<div class="action-box">
+        return `<div class="action-box" id="` + String(num) + `">
         <!--later wanna add a way to rearraneg-->
         <span class="action-num">` + String(num) + `</span>
         <span class="delete-action-x">X</span>
