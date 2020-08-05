@@ -3,11 +3,15 @@
 const addActionButt = document.querySelector(".form-add-action-butt");
 const launchActionsButt = document.querySelector(".run-actions-butt");
 const canvas = document.querySelector(".canvas-display");
+canvas.width = 400
+canvas.height = 350
+
+
 const distInp = document.querySelector(".form-cm-input");
 const drawBoolInp = document.querySelector(".radio-bttn"); //gets only the first radio  button
 const selDirInput = document.querySelector(".form-select-direc");
 const actDispBox = document.querySelector(".action-display-container");
-const ctx = document.querySelector(".canvas-display").getContext("2d");
+const ctx = canvas.getContext('2d');
 const canActHei = 7;
 const canActWid = 8;
 let invalidPosPresent = false;
@@ -16,6 +20,11 @@ let invalidPosPresent = false;
 let canPos = {
     'posX': canvas.offsetWidth / 2,
     'posY': canvas.offsetHeight / 2
+};
+
+let lastCanPos = {
+    'posX': 0,
+    'posY': 0
 };
 
 let actions = [];
@@ -35,9 +44,8 @@ function addAction() {
     let action = getFormData() //return an object {distance float, drawBool, direction string}
     console.log(action);
     actions.push(action);
-    refreshHtmlActions();
-    refreshCanvasDisplay();
-    // action.moveOnCanvas()
+    refreshHtmlActions(refreshCanvasDisplay()); //refresh canvas display return int for number of 
+    //actions that did not violate the canvas bounderies.
 }
 
 
@@ -67,7 +75,7 @@ function initCanvas() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height); //clear html5 canvas
 
-    ctx.fillStyle = "green";
+    ctx.fillStyle = 'green';
     ctx.lineWidth = 5;
 
     ctx.beginPath();
@@ -79,14 +87,13 @@ function refreshCanvasDisplay() {
 
     for (let i = 0; i < actions.length; i++) { //run thru all actions
         actions[i].moveCtxPos(); //move the canvas position but dont make the change on the canvas quite yes
-
-        if (canPos.posX < 0 || canPos.posY < 0) { //validation for too small
+        console.log(canPos);
+        if (canPos.posX < 0 || canPos.posY < 0 || canPos.posX > canvas.offsetWidth || canPos.posY > canvas.offsetHeight) { //validation for too small
             invalidPosPresent = true;
-            console.error("action number " + i + "has existed the canvas boundery (canPos.posX<0||canPos.posY<0)");
-        }
-        if (canPos.posX > canvas.offsetWidth || canPos.posY > canvas.offsetHeight) { //validation for too big
-            invalidPosPresent = true;
-            console.error("action number " + i + "has existed the canvas boundery (canPos.posX > canvas.offsetWidth || canPos.posY > canvas.offsetHeight)");
+            alert("action number " + i + " has violated the canvas boundery by moving to: (" + canPos.posX + "," + canPos.posY + ").\n Remember, max is (400,350). Action will not be counted to avoid hardware incidets");
+            canPos = lastCanPos;
+            actions.pop()
+            return i
         } else if (actions[i].draw) { //draw if draw
             ctx.lineTo(canPos.posX, canPos.posY);
             console.log("invoked draw");
@@ -96,16 +103,17 @@ function refreshCanvasDisplay() {
         invalidPosPresent = false;
         ctx.stroke()
     }
+    return actions.length
 
 }
 
-function refreshHtmlActions() {
+function refreshHtmlActions(numOfActionsNotViolateCanBoundery) {
     actDispBox.innerHTML = ""; //delete everything in the box
 
     //every time an action is added or popped from
     // actions this should be invoked to redraw the actions\
 
-    for (let i = 0; i < actions.length; i++) {
+    for (let i = 0; i < numOfActionsNotViolateCanBoundery; i++) {
         actDispBox.innerHTML += (actions[i].toHtmlString(i + 1));
     }
 }
@@ -126,14 +134,19 @@ class Action {
     }
 
     moveCtxPos() {
-        let pxLen = (3 / 100) * window.innerWidth * this.len;
+        //save last pos in case of accident
+        lastCanPos.posX = canPos.posX;
+        lastCanPos.posY = canPos.posY;
+
+        // let pxLen = (3 / 100) * window.innerWidth * this.len; below px len for trial version
+        let pxLen = this.len * 50
         console.log("pxLen is: " + pxLen);
         switch (this.direc) {
             case "up":
                 canPos.posY -= pxLen;
                 break;
             case "right":
-                canPos.posX -= pxLen;
+                canPos.posX += pxLen;
                 break;
             case "down":
                 canPos.posY += pxLen;

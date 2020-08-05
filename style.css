@@ -28,8 +28,6 @@ body {
 
 .canvas-display {
     background-color: white;
-    width: calc(2*14vw);
-    height: calc(2*8.5vw);
     display: block;
     margin: 5vh auto 5vh;
 
