@@ -1,4 +1,9 @@
 # D-M-Project-Canvas
+This is Dang & Matans' Canavas project!
+Let's inspire the children :D
+Njoy,
+us. 
+# D-M-Project-Canvas
 Last updated: 7/17/2020 10:37am
 
 *Sonars use 2 pins (trig and echo) to "capture" soundwaves. In a nutshell, these 2 pins work in tandem to allow for echolocation. There are 2 types of measurements: time sound is detected and distance. For both horizontal and vertical, there will be variables called duration_vertical/horizontal_sonar which contains the time. Don't worry about using it, just make sure to have it because time is necessary to calculate distance
@@ -36,4 +41,5 @@ Canvas Information:
     To retrieve sonar measurements, string their distance variables Ex: client.println("<p>Horizontal Reading: " + String(distance_horizontal_sonar) + "</p>");
 
 NOTE: Variables stated above have only two states (HIGH/LOW)
+
 

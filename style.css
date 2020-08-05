@@ -13,6 +13,8 @@ body {
 .page-wrapper {
     width: 75%;
     margin: 0 auto;
+    padding: 3vh 0;
+
     /*display: flex;
     flex-direction: column;
     justify-content: center;
@@ -42,17 +44,21 @@ body {
 }
 
 .form-wrapper {
-    width: 65%;
+    max-width: 81.5%;
     margin: 3vh auto;
     display: block;
     background-color: #b7e2ec;
     padding: 1.5vw;
     border-radius: 5px;
+
+
 }
 
 .action-form {
     display: flex;
+    flex-direction: row;
 
+    width: 100%;
     color: #9E768F;
     font-weight: 900;
     font-size: 1.7vw;
@@ -63,26 +69,34 @@ body {
     font-weight: 900;
     padding: .5vw;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin-right: 1vw;
+
     color: #9E768F;
     font-size: 1.7vw;
+    margin-right: 1vw;
 
 }
 
 .cm-span {
-    margin-right: 6vw;
     padding-top: 1vh;
+    margin-right: 2vw;
+}
 
+.radio-btts-container {
+    padding: 1vh;
+    margin-right: 2.8vw;
 }
 
 .form-select-direc {
     padding: .5vh.5vw 1vh;
     font-size: 1.7vw;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin-right: 1vw;
     font-weight: 900;
     color: #9E768F;
-    margin-right: 4vw;
+    margin-right: 2vw;
+}
+
+input[type="radio"]:checked+label {
+    color: #836076;
 }
 
 .form-select-direc option {
@@ -95,6 +109,8 @@ body {
     font-size: 1.4vw;
     padding: 0 1vw;
     border: none;
+    cursor: pointer;
+
 
 }
 
@@ -103,14 +119,36 @@ body {
     background-color: #ED7D3A;
 }
 
+.run-actions-butt {
+    display: block;
+    font-weight: 900;
+    color: #9E768F;
+    font-size: 2vw;
+    cursor: pointer;
+    border: palevioletred solid 5px;
+    display: block;
+
+    padding: 0 1vw;
+    margin: 0 auto;
+}
+
+.run-actions-butt:hover {
+    font-weight: 900;
+    color: #39b2bb;
+    font-size: 2vw;
+    cursor: pointer;
+    border: rgb(112, 216, 129) solid 5px;
+    padding: 0 1vw;
+
+}
+
 .action-display-container {
     width: 65%;
-    display: block;
     margin: 3vh auto;
-    min-height: 13vh;
+    min-height: 10vh;
     overflow: auto;
 
-    background-color: rgb(202, 182, 182);
+    background-color: #cab6b6;
     border-radius: 8px;
 
 }
