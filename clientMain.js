@@ -57,15 +57,30 @@ function addAction() {
     //actions that did not violate the canvas bounderies.
 }
 
-function launchActions() {
+async function launchActions() {
     /*do stuff when actions are added
-        1.convert actions to HTTP post format
-        2.send to the server
-
+        1.create the messege
+        2.send and print response
+        
+        not doing whats below
         send the first action
         await confirmation that its done
         send the second
     */
+
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(actions)
+    };
+
+    alert("sending your data to the server right now for execution!")
+    response = await fetch('/launchActions', options);
+    alert(response)
+
+
 }
 
 function getFormData() {
@@ -82,8 +97,8 @@ function initCanvas() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height); //clear html5 canvas
 
-    ctx.fillStyle = 'green';
-    ctx.lineWidth = 5;
+    ctx.fillStyle = 'blue';
+    ctx.lineWidth = 4.5;
 
     ctx.beginPath();
     ctx.moveTo(canPos.posX, canPos.posY);
@@ -93,6 +108,7 @@ function refreshCanvasDisplay() {
     initCanvas(); //init canvas to middle and no actions
 
     for (let i = 0; i < actions.length; i++) { //run thru all actions
+
         actions[i].moveCtxPos(); //move the canvas position but dont make the change on the canvas quite yes
         console.log(canPos);
         if (canPos.posX < 0 || canPos.posY < 0 || canPos.posX > canvas.offsetWidth || canPos.posY > canvas.offsetHeight) { //validation for too small
