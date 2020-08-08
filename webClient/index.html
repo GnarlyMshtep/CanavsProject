@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="client side applet">
+    <meta name="keywords" content="Canvas drawing client-side">
+    <meta name="author" content="Matan Shtepe;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <h1 class="main-title">Dang & Matan's Canvas Applet</h1>
+
+        <canvas class="canvas-display"></canvas>
+        <p class="description-p">Select the attributes for the action you want to create and add to the sequence!</p>
+        <div class="form-wrapper">
+            <form class="action-form">
+                <input class="form-cm-input" type="number" placeholder="3.14" value="1" min=".05" step=".05" max="8">
+                <span class="cm-span">CM</span>
+                <div class="radio-btts-container">
+                    <input class="radio-bttn" checked="checked" type="radio" id="draw" name="draw-setting" value="Draw">
+                    <label for="draw">Draw</label>
+                    <input class="radio-bttn" type="radio" id="no-draw" name="draw-setting" value="No-Draw">
+                    <label for="no-draw">No-Draw</label>
+                </div>
+
+                <select class="form-select-direc">
+                    <option value="up">up</option>
+                    <option value="right">right</option>
+                    <option value="down">down</option>
+                    <option value="left">left</option>
+                </select>
+                <input type="button" value="Add This Action" class="form-add-action-butt">
+            </form>
+        </div>
+        <p class="description-p">Add Actions for them to be displayed here</p>
+
+        <div class="action-display-container">
+        </div>
+
+        <button class="run-actions-butt">Execute These Actions!</button>
+
+
+
+    </div>
+
+    <script src="clientMain.js"></script>
+</body>
+
+</html>

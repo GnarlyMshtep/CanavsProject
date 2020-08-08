@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Dang and Matan's Canvas Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "htpps://github.com/GnarlyMshtep/CanvasProject"
+  },
+  "keywords": [
+    "Las-Positas-College",
+    "canvas",
+    "drawing",
+    "fun!"
+  ],
+  "author": "Matan Shtepel",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
