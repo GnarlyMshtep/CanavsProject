@@ -3,6 +3,7 @@ const fs = require('fs')
 
 let app = express()
 app.listen(3000, () => console.log("listening at 3000"))
+//server.listen(3000, 'your ipv4 address', () => console.log("listening!"));
 
 app.use(express.static('webClient'));
 app.use(express.json({

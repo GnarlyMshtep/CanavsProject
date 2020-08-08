@@ -95,7 +95,7 @@ async function launchActions() {
 function stringifyActions(actions) {
     let str = ""
     for (let i = 0; i < actions.length; i++) {
-        str += actions[i].stringify() + "&";
+        str += actions[i].stringify();
     }
 
     return str
@@ -216,7 +216,7 @@ class Action {
     }
 
     stringify() {
-        return (this.len + "," + this.drawStr + "," + this.direc).toLowerCase()
+        return (this.len + "," + this.draw + "," + this.direc + ",").toLowerCase()
     }
 }
 /*
