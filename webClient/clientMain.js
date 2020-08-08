@@ -85,7 +85,9 @@ async function launchActions() {
 
     if (window.confirm("Would you like to send your actions to execution?")) {
         alert("Okay, sending: " + options.body);
-        response = await fetch('/launchActions', options);
+        const response = await fetch('/launchActions', options);
+        const json = await response.json()
+        console.log(json);
     }
 
 }

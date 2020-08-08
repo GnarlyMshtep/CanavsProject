@@ -1,0 +1,141 @@
+[{
+    "timeStamp": "Sat Aug 08 2020 08:32:35 GMT-0700 (Pacific Daylight Time)",
+    "strData": "1,draw,up&1,draw,up&1,draw,up&",
+    "data": [{
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }],
+    "used": false
+}, {
+    "timeStamp": "Sat Aug 08 2020 08:33:30 GMT-0700 (Pacific Daylight Time)",
+    "strData": "1,draw,up&1,draw,up&1,draw,up&",
+    "data": [{
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }],
+    "used": false
+}, {
+    "timeStamp": "Sat Aug 08 2020 08:33:31 GMT-0700 (Pacific Daylight Time)",
+    "strData": "1,draw,up&1,draw,up&1,draw,up&",
+    "data": [{
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }],
+    "used": false
+}, {
+    "timeStamp": "Sat Aug 08 2020 08:33:32 GMT-0700 (Pacific Daylight Time)",
+    "strData": "1,draw,up&1,draw,up&1,draw,up&",
+    "data": [{
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }],
+    "used": false
+}, {
+    "timeStamp": "Sat Aug 08 2020 08:33:33 GMT-0700 (Pacific Daylight Time)",
+    "strData": "1,draw,up&1,draw,up&1,draw,up&",
+    "data": [{
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }],
+    "used": false
+}, {
+    "timeStamp": "Sat Aug 08 2020 08:33:34 GMT-0700 (Pacific Daylight Time)",
+    "strData": "1,draw,up&1,draw,up&1,draw,up&",
+    "data": [{
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }],
+    "used": false
+}, {
+    "timeStamp": "Sat Aug 08 2020 08:33:34 GMT-0700 (Pacific Daylight Time)",
+    "strData": "1,draw,up&1,draw,up&1,draw,up&",
+    "data": [{
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }],
+    "used": false
+}]
