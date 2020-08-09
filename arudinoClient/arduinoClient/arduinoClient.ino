@@ -101,13 +101,16 @@ void loop() {
 
             for (int i=0;i<actionsLen;i++) {
                 tempLen = (strData.substring(0, strData.indexOf(","))).toDouble();
-                strData = strData.substring(strData.indexOf(","), strData.length()); //removes the string already used
-                tempDraw= (strData.substring(0, strData.indexOf(",")+1)=="true");
-                strData = strData.substring(strData.indexOf(","), strData.length()); //removes the string already used
-                tempDir = strData.substring(0, strData.indexOf(",")+1);
-                strData = strData.substring(strData.indexOf(","), strData.length()); //removes the string already used
-
-                Serial.println("tempLen: " + String(tempLen) + "tempDraw: " + String(tempDraw) + "tempDir: " + tempDraw)
+                strData = strData.substring(strData.indexOf(",")+1, strData.length()); //removes the string already used
+                Serial.println(strData);
+                tempDraw= (strData.substring(0, strData.indexOf(","))=="true");
+                strData = strData.substring(strData.indexOf(",")+1, strData.length()); //removes the string already used
+                Serial.println(strData);
+                tempDir = strData.substring(0, strData.indexOf(","));
+                strData = strData.substring(strData.indexOf(",")+1, strData.length()); //removes the string already used
+                Serial.println(strData);
+                  
+                Serial.println("tempLen: " + String(tempLen) + "tempDraw: " + String(tempDraw) + "tempDir: " + tempDraw);
                     //once we have data, push to array!
                     actions[i] = Action(tempLen, tempDraw, tempDir);
             }
