@@ -78,8 +78,9 @@ async function launchActions() {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            strData: stringifyActions(actions),
-            data: actions
+            strData: String(actions.length) + "&" + stringifyActions(actions),
+            data: actions,
+            length: actions.length
         })
     };
 

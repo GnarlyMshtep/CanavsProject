@@ -2,8 +2,11 @@ const express = require('express');
 const fs = require('fs')
 
 let app = express()
-app.listen(3000, () => console.log("listening at 3000"))
-//server.listen(3000, 'your ipv4 address', () => console.log("listening!"));
+//app.listen(3000, () => console.log("listening at 3000"))
+app.listen(3000, '192.168.0.33', () => console.log("listening!"));
+/*app.listen('80', '192.168.0.33', () => {
+    console.info(`server started on port 80)`);
+});*/
 
 app.use(express.static('webClient'));
 app.use(express.json({
@@ -21,19 +24,25 @@ app.post('/launchActions', function (request, response) {
 
     data.push({
         timeStamp: String(d),
+        length: request.body.length,
         strData: request.body.strData,
         data: request.body.data,
         used: false
     });
 
-    fs.writeFileSync("savedData.json", JSON.stringify(data));
+    /*fs.readFileSync('savedData.json', function (err, result) {
+        var json = JSON.parse(result)
+        json.push()
 
-    response.json({
-        status: "success!",
-        timeStamp: String(d),
-        data: request.body.strData,
-        index: data.length
-    })
+        fs.writeFileSync("savedData.json", json + JSON.stringify(data));
+
+        response.json({
+            status: "success!",
+            timeStamp: String(d),
+            data: request.body.strData,
+            index: data.length
+        });
+    });*/
 });
 
 app.get('/getAction', function (request, response) {
@@ -47,4 +56,5 @@ function getLatestUnusedResponse() { //return strData of latest unused action
             return data[i].strData
         }
     }
+    return "null"
 }

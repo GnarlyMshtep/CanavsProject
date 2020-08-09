@@ -1,1 +1,86 @@
-[{"timeStamp":"Sat Aug 08 2020 10:14:02 GMT-0700 (Pacific Daylight Time)","strData":"1,draw,up&1,draw,up&1,draw,up&","data":[{"len":1,"draw":true,"direc":"up","drawStr":"DRAW"},{"len":1,"draw":true,"direc":"up","drawStr":"DRAW"},{"len":1,"draw":true,"direc":"up","drawStr":"DRAW"}],"used":false},{"timeStamp":"Sat Aug 08 2020 10:15:38 GMT-0700 (Pacific Daylight Time)","strData":"1,draw,up&1,draw,up&1,draw,up&","data":[{"len":1,"draw":true,"direc":"up","drawStr":"DRAW"},{"len":1,"draw":true,"direc":"up","drawStr":"DRAW"},{"len":1,"draw":true,"direc":"up","drawStr":"DRAW"}],"used":false},{"timeStamp":"Sat Aug 08 2020 10:15:42 GMT-0700 (Pacific Daylight Time)","strData":"1,true,up&1,true,up&","data":[{"len":1,"draw":true,"direc":"up","drawStr":"DRAW"},{"len":1,"draw":true,"direc":"up","drawStr":"DRAW"}],"used":false},{"timeStamp":"Sat Aug 08 2020 10:15:46 GMT-0700 (Pacific Daylight Time)","strData":"1,true,up&1,true,up&","data":[{"len":1,"draw":true,"direc":"up","drawStr":"DRAW"},{"len":1,"draw":true,"direc":"up","drawStr":"DRAW"}],"used":false},{"timeStamp":"Sat Aug 08 2020 11:59:43 GMT-0700 (Pacific Daylight Time)","strData":"1,true,up,1,true,up,","data":[{"len":1,"draw":true,"direc":"up","drawStr":"DRAW"},{"len":1,"draw":true,"direc":"up","drawStr":"DRAW"}],"used":false}]
+[{
+    "timeStamp": "Sat Aug 08 2020 10:14:02 GMT-0700 (Pacific Daylight Time)",
+    "strData": "1,draw,up&1,draw,up&1,draw,up&",
+    "data": [{
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }],
+    "used": false
+}, {
+    "timeStamp": "Sat Aug 08 2020 10:15:38 GMT-0700 (Pacific Daylight Time)",
+    "strData": "1,draw,up&1,draw,up&1,draw,up&",
+    "data": [{
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }],
+    "used": false
+}, {
+    "timeStamp": "Sat Aug 08 2020 10:15:42 GMT-0700 (Pacific Daylight Time)",
+    "strData": "1,true,up&1,true,up&",
+    "data": [{
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }],
+    "used": false
+}, {
+    "timeStamp": "Sat Aug 08 2020 10:15:46 GMT-0700 (Pacific Daylight Time)",
+    "strData": "1,true,up&1,true,up&",
+    "data": [{
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }],
+    "used": false
+}, {
+    "timeStamp": "Sat Aug 08 2020 11:59:43 GMT-0700 (Pacific Daylight Time)",
+    "strData": "1,true,up,1,true,up,",
+    "data": [{
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }, {
+        "len": 1,
+        "draw": true,
+        "direc": "up",
+        "drawStr": "DRAW"
+    }],
+    "used": false
+}]
