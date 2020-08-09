@@ -4,7 +4,7 @@ char* ssid = "BadWifi";
 char* password =  "Sanmina02";
 
 
-class Action
+class Action //encapsulated structure to orginize the data for a single action
 {
 private:
     double len;
@@ -58,7 +58,7 @@ public:
 
 
 
-void setup() {
+void setup() { //basiclly just connects to Wifi
 
     Serial.begin(115200);
     delay(4000);
@@ -73,7 +73,7 @@ void setup() {
 
 }
 
-void loop() {
+void loop() { //part1: send a GET request to the server (hosted on a the local network the audrino is connected to) -> get back a string that describes an array of actions. 
 
     if ((WiFi.status() == WL_CONNECTED)) { //Check the current connection status
 
@@ -89,6 +89,8 @@ void loop() {
             Serial.println(httpCode);
             Serial.println(payload);
             http.end(); //Free the resources
+            
+            //part 2: we take the payload (response to get request) and convert it into an array of Actions (class) using string manipulation
 
             int actionsLen = (payload.substring(0, payload.indexOf("&"))).toInt();
             String strData = payload.substring(payload.indexOf("&")+1, payload.length());

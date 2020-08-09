@@ -4,7 +4,7 @@ char* ssid = "BadWifi";
 char* password =  "Sanmina02";
 
 
-class Action
+class Action //encapsulated structure to orginize the data for a single action
 {
 private:
     double len;
@@ -58,7 +58,7 @@ public:
 
 
 
-void setup() {
+void setup() { //basiclly just connects to Wifi
 
     Serial.begin(115200);
     delay(4000);
@@ -73,7 +73,7 @@ void setup() {
 
 }
 
-void loop() {
+void loop() { //part1: send a GET request to the server (hosted on a the local network the audrino is connected to) -> get back a string that describes an array of actions.
 
     if ((WiFi.status() == WL_CONNECTED)) { //Check the current connection status
 
@@ -90,6 +90,9 @@ void loop() {
             Serial.println(payload);
             http.end(); //Free the resources
 
+            //part 2: we take the payload (response to get request) and convert it into an array of Actions (class) using string manipulation
+
+
             int actionsLen = (payload.substring(0, payload.indexOf("&"))).toInt();
             String strData = payload.substring(payload.indexOf("&")+1, payload.length());
             Serial.println(strData);
@@ -102,23 +105,26 @@ void loop() {
             for (int i=0;i<actionsLen;i++) {
                 tempLen = (strData.substring(0, strData.indexOf(","))).toDouble();
                 strData = strData.substring(strData.indexOf(",")+1, strData.length()); //removes the string already used
-                Serial.println(strData);
+
                 tempDraw= (strData.substring(0, strData.indexOf(","))=="true");
                 strData = strData.substring(strData.indexOf(",")+1, strData.length()); //removes the string already used
-                Serial.println(strData);
+
                 tempDir = strData.substring(0, strData.indexOf(","));
                 strData = strData.substring(strData.indexOf(",")+1, strData.length()); //removes the string already used
-                Serial.println(strData);
-                  
-                Serial.println("tempLen: " + String(tempLen) + "tempDraw: " + String(tempDraw) + "tempDir: " + tempDraw);
-                    //once we have data, push to array!
-                    actions[i] = Action(tempLen, tempDraw, tempDir);
+
+
+                Serial.println("tempLen: " + String(tempLen) + "tempDraw: " + String(tempDraw) + "tempDir: " + tempDir);
+                //once we have data, push to array!
+                actions[i] = Action(tempLen, tempDraw, tempDir);
             }
 
-            Serial.println("printing all actions: ");
-            for (int j =0; j<actionsLen; j++) {
-                Serial.println(actions[j].stringify());
-            }
+            /* Serial.println("printing all actions: ");
+             for (int j =0; j<actionsLen; j++) {
+                 Serial.println(actions[j].stringify());
+             }*/
+
+
+
 
 
 
