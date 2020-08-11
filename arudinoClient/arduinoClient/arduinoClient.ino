@@ -1,8 +1,15 @@
+/*Additional Info:
+    -distance unit of messurments is cm
+    -server must be running (so request could be fullfiled)
+*/
+
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 char* ssid = "BadWifi";
 char* password =  "Sanmina02";
 
+const Vector CEN_VEC =  Vector(4, 3.5);
+const float S_DIST = .05; //the amount of error we are willing to except, exactness can't really be achieved (I belive)
 
 class Action //encapsulated structure to orginize the data for a single action
 {
@@ -56,7 +63,46 @@ public:
     }
 };
 
+class Vector { //arudino read from top left to avoid negative values (can keep all numbers unsigned)
+private:
+    double x, y;
 
+public:
+    Vector(double x_, double y_) {
+        x= x_;
+        y=y_;
+    }
+
+    double getX() const {
+        return x;
+    }
+
+    double getY() const {
+        return y;
+    }
+
+    void setX(double &x_) {
+        x= x_;
+    }
+
+    void setY(double &y_) {
+        x= y_;
+    }
+
+    template<typename T>
+    Vector operator +(T num) {
+        Vector(x+num, y+num);
+    }
+
+    template<typename T>
+    Vector operator -(T num) {
+        Vector(x-num, y+-num);
+    }
+
+    Vector operator -(Vector &v) {
+        Vector(x-v.getX(), y-v.getY());
+    }
+};
 
 void setup() { //basiclly just connects to Wifi
 
@@ -75,7 +121,7 @@ void setup() { //basiclly just connects to Wifi
 
 void loop() { //part1: send a GET request to the server (hosted on a the local network the audrino is connected to) -> get back a string that describes an array of actions.
 
-    /*centerArm()!!!*/
+    centerArm();
 
     if ((WiFi.status() == WL_CONNECTED)) { //Check the current connection status
 
@@ -125,16 +171,18 @@ void loop() { //part1: send a GET request to the server (hosted on a the local n
                  Serial.println(actions[j].stringify());
              }*/
 
-            /* psuedocode for part3
-            
-            for(action in actions){
-                while(threshold not met(action) ){
-                    moveInTheActionDirection(Action) //has to be choppy dicrete actions so they all deal with unifrom friction
-                }
+             /* psuedocode for part3
 
-            }
-            
-            */
+             for(action in actions){
+                 action.getDraw() ? draw() : noDraw();
+                 Vector* dir = &VecFromAct(action)
+                 while(abs(dir.getX())<S_DIST && abs(dir.getY())<S_DIST){
+                     moveArm()
+                 }
+
+             }
+
+             */
         }//end of if http request works
 
         else {
@@ -144,4 +192,55 @@ void loop() { //part1: send a GET request to the server (hosted on a the local n
     }
 
     delay(100000000);
+}
+
+
+void centerArm() {
+    Vector diffrence= getCurrentVect() - CEN_VEC;
+
+    noDraw();
+    while (abs(diffrence.getX())<S_DIST && abs(diffrence.getY())<S_DIST) {
+        moveArm(diffrence);
+        diffrence =-S_DIST;
+    }
+}
+
+void moveArm(Vector dir) {
+    //move the arm in the direction of the vector. first move X by an increment and then y (since continous action not allowed)
+
+    //move x an increment in dir by using sensor to messure when its moved that
+    //move y an increment in dir sensor to messure when its moved that
+}
+
+void noDraw() {
+    //check if 
+    //raise the pen off the canvas
+}
+
+void draw() {
+    //check if
+    //put the pen on the canvas
+}
+
+Vector* VecFromAct(Action &act) {
+    switch (act.getDir())
+    {
+    case "up":
+        return &Vector(0, act.getLen());
+        break;
+
+    case "down":
+        return &Vector(0, -act.getLen());
+        break;
+    case "right":
+        return &Vector(act.getLen(), 0);
+        break;
+    case "left":
+        return &Vector(-act.getLen(), 0)
+            break;
+
+
+    default:
+        break;
+    }
 }

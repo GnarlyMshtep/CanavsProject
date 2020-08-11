@@ -3,7 +3,7 @@ const fs = require('fs')
 
 let app = express()
 //app.listen(3000, () => console.log("listening at 3000"))
-app.listen(3000, '192.168.0.33', () => console.log("listening!"));
+app.listen(3000, '192.168.0.156', () => console.log("listening!"));
 /*app.listen('80', '192.168.0.33', () => {
     console.info(`server started on port 80)`);
 });*/
