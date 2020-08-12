@@ -8,8 +8,8 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 
-char* ssid = "NETGEAR-5G";
-char* password =  "alon1234";
+char* ssid     = "NETGEAR-5G";
+char* password = "alon12345";
 
 const int upM = 4;    //up
 const int riM = 14;   //right
@@ -24,6 +24,41 @@ const int echoPin_horizontal = 3;
 
 const int S_TIME = 500; //in ms
 const float S_DIST = .05; //the amount of error we are willing to except, exactness can't really be achieved (I belive)
+
+void setup() { //basiclly just connects to Wifi
+
+    Serial.begin(115200);
+
+    Serial.println("hello I am happening");
+    //intialize arduino divices
+    pinMode(servo, OUTPUT);
+    pinMode(upM, OUTPUT);
+    pinMode(riM, OUTPUT);
+    pinMode(dowM, OUTPUT);
+    pinMode(lefM, OUTPUT);
+    pinMode(trigPin_vertical, OUTPUT); // Sets the trigPin as an Output                                   
+    pinMode(echoPin_vertical, INPUT); // Sets the echoPin as an Input                                     
+    pinMode(trigPin_horizontal, OUTPUT); // Sets the trigPin as an Output                                       
+    pinMode(echoPin_horizontal, INPUT); // Sets the echoPin as an Input 
+    // Set outputs to LOW, nothing needs to be activated just yet :)
+    digitalWrite(upM, LOW);
+    digitalWrite(riM, LOW);
+    digitalWrite(dowM, LOW);
+    digitalWrite(lefM, LOW);
+    digitalWrite(servo, HIGH);
+
+
+    WiFi.begin(ssid, password);
+    Serial.println("Connecting to WiFi...");
+    while (WiFi.status() != WL_CONNECTED) {
+        Serial.print('.');
+        delay(1000);
+    }
+
+    Serial.println("Connected to the WiFi network");
+
+}
+
 
 class Action //encapsulated structure to orginize the data for a single action
 {
@@ -77,14 +112,14 @@ public:
     }
 };
 
-class Vector { //arudino read from top left to avoid negative values (can keep all numbers unsigned)
+class Vector { //arudino read from top left to avoid negative values
 private:
     double x, y;
 
 public:
     Vector(double x_, double y_) {
-        x= x_;
-        y=y_;
+        x = x_;
+        y = y_;
     }
 
     double getX() const {
@@ -125,40 +160,68 @@ public:
 
 const Vector CEN_VEC =  Vector(4, 3.5);
 
-
-void setup() { //basiclly just connects to Wifi
-
-    Serial.begin(115200);
-
-    Serial.println("hello I am happening");
-    //intialize arduino divices
-    pinMode(servo, OUTPUT);
-    pinMode(upM, OUTPUT);
-    pinMode(riM, OUTPUT);
-    pinMode(dowM, OUTPUT);
-    pinMode(lefM, OUTPUT);
-    pinMode(trigPin_vertical, OUTPUT); // Sets the trigPin as an Output                                   
-    pinMode(echoPin_vertical, INPUT); // Sets the echoPin as an Input                                     
-    pinMode(trigPin_horizontal, OUTPUT); // Sets the trigPin as an Output                                       
-    pinMode(echoPin_horizontal, INPUT); // Sets the echoPin as an Input 
-    // Set outputs to LOW, nothing needs to be activated just yet :)
-    digitalWrite(upM, LOW);
-    digitalWrite(riM, LOW);
-    digitalWrite(dowM, LOW);
-    digitalWrite(lefM, LOW);
-    digitalWrite(servo, HIGH);
-
-
-    WiFi.begin(ssid, password);
-    Serial.println("Connecting to WiFi...");
-    while (WiFi.status() != WL_CONNECTED) {
-        Serial.print('.');
-        delay(1000);
-    }
-
-    Serial.println("Connected to the WiFi network");
-
+void noDraw() {
+    digitalWrite(servo, LOW);
 }
+
+void draw() {
+    digitalWrite(servo, HIGH);
+}
+
+Vector VecFromAct(Action &act) {
+    if (act.getDir()=="up") {
+        return Vector(0, -act.getLen());
+    }
+    else if (act.getDir()=="down") {
+        return Vector(0, act.getLen());
+    }
+    else if (act.getDir()=="right") {
+        return Vector(act.getLen(), 0);
+    }
+    else if (act.getDir()=="left") {
+        return Vector(-act.getLen(), 0);
+    }
+    return Vector(0, 0);
+}
+
+Vector getCurrentPos() {
+    return Vector(horizontal_sonar(), vertical_sonar());
+}
+
+double vertical_sonar()
+{
+    delay(50);
+    digitalWrite(trigPin_vertical, LOW);
+    delayMicroseconds(2);
+    // Sets the trigPin on HIGH state for 10 micro seconds
+    digitalWrite(trigPin_vertical, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin_vertical, LOW);
+
+    // Reads the echoPin, returns the sound wave travel time in microseconds
+    double duration_vertical_sonar = pulseIn(echoPin_vertical, HIGH);
+
+    // Calculating the distance
+    return duration_vertical_sonar*0.034/2;
+}
+
+double horizontal_sonar()
+{
+    delay(50);
+    digitalWrite(trigPin_horizontal, LOW);
+    delayMicroseconds(2);
+    // Sets the trigPin on HIGH state for 10 micro seconds
+    digitalWrite(trigPin_horizontal, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin_horizontal, LOW);
+
+    // Reads the echoPin, returns the sound wave travel time in microseconds
+    double duration_horizontal_sonar = pulseIn(echoPin_horizontal, HIGH);
+
+    // Calculating the distance
+    return duration_horizontal_sonar*0.034/2;
+}
+
 
 void loop() { //part1: send a GET request to the server (hosted on a the local network the audrino is connected to) -> get back a string that describes an array of actions.
 
@@ -230,6 +293,38 @@ void loop() { //part1: send a GET request to the server (hosted on a the local n
     delay(100000000);
 }
 
+void centerArm() {
+    //2 dimensonal application of drawAction(), call it horizontaly and verticly depending on the diffrence from current position
+    Vector diffrence = getCurrentPos()- CEN_VEC;
+    noDraw();
+
+    //first, horizontall
+
+    if (diffrence.getX()<0) {
+        Action tempHorAct = Action(abs(diffrence.getX()), false, "left");
+        drawAction(tempHorAct, getCurrentPos());
+    }
+    else
+    {
+        Action tempHorAct = Action(abs(diffrence.getX()), false, "right");
+        drawAction(tempHorAct, getCurrentPos());
+    }
+
+    //second, horizontall
+
+    if (diffrence.getY()<0) {
+        Action tempHorAct = Action(abs(diffrence.getY()), false, "up");
+        drawAction(tempHorAct, getCurrentPos());
+    }
+    else
+    {
+        Action tempHorAct = Action(abs(diffrence.getY()), false, "down");
+        drawAction(tempHorAct, getCurrentPos());
+    }
+
+}
+
+
 void drawAction(Action act, Vector curPos) {
     Vector delta = Vector(abs(act.getLen()-curPos.getX()), abs(act.getLen()-curPos.getY()));
     Vector pos0 = Vector(0, 0);
@@ -280,106 +375,4 @@ void drawAction(Action act, Vector curPos) {
         }
     }
 
-}
-
-
-
-void centerArm() {
-    //2 dimensonal application of drawAction(), call it horizontaly and verticly depending on the diffrence from current position
-    Vector diffrence = getCurrentPos()- CEN_VEC;
-    noDraw();
-
-    //first, horizontall
-
-    if (diffrence.getX()<0) {
-        Action tempHorAct = Action(abs(diffrence.getX()), false, "left");
-        drawAction(tempHorAct, getCurrentPos());
-    }
-    else
-    {
-        Action tempHorAct = Action(abs(diffrence.getX()), false, "right");
-        drawAction(tempHorAct, getCurrentPos());
-    }
-
-    //second, horizontall
-
-    if (diffrence.getY()<0) {
-        Action tempHorAct = Action(abs(diffrence.getY()), false, "up");
-        drawAction(tempHorAct, getCurrentPos());
-    }
-    else
-    {
-        Action tempHorAct = Action(abs(diffrence.getY()), false, "down");
-        drawAction(tempHorAct, getCurrentPos());
-    }
-
-}
-
-void moveArm(Vector dir) {
-    //move the arm in the direction of the vector. first move X by an increment and then y (since continous action not allowed)
-
-    //move x an increment in dir by using sensor to messure when its moved that
-    //move y an increment in dir sensor to messure when its moved that
-}
-
-void noDraw() {
-    digitalWrite(servo, LOW);
-}
-
-void draw() {
-    digitalWrite(servo, HIGH);
-}
-
-Vector VecFromAct(Action &act) { //no switchfor srings!
-    if (act.getDir()=="up") {
-        return Vector(0, -act.getLen());
-    }
-    else if (act.getDir()=="down") {
-        return Vector(0, act.getLen());
-    }
-    else if (act.getDir()=="right") {
-        return Vector(act.getLen(), 0);
-    }
-    else if (act.getDir()=="left") {
-        return Vector(-act.getLen(), 0);
-    }
-    return Vector(0, 0);
-}
-
-Vector getCurrentPos() {
-    return Vector(horizontal_sonar(), vertical_sonar());
-}
-
-double vertical_sonar()
-{
-    delay(50);
-    digitalWrite(trigPin_vertical, LOW);
-    delayMicroseconds(2);
-    // Sets the trigPin on HIGH state for 10 micro seconds
-    digitalWrite(trigPin_vertical, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(trigPin_vertical, LOW);
-
-    // Reads the echoPin, returns the sound wave travel time in microseconds
-    double duration_vertical_sonar = pulseIn(echoPin_vertical, HIGH);
-
-    // Calculating the distance
-    return duration_vertical_sonar*0.034/2;
-}
-
-double horizontal_sonar()
-{
-    delay(50);
-    digitalWrite(trigPin_horizontal, LOW);
-    delayMicroseconds(2);
-    // Sets the trigPin on HIGH state for 10 micro seconds
-    digitalWrite(trigPin_horizontal, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(trigPin_horizontal, LOW);
-
-    // Reads the echoPin, returns the sound wave travel time in microseconds
-    double duration_horizontal_sonar = pulseIn(echoPin_horizontal, HIGH);
-
-    // Calculating the distance
-    return duration_horizontal_sonar*0.034/2;
 }
