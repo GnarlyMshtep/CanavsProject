@@ -1,9 +1,25 @@
 const express = require('express');
-const fs = require('fs')
+const fs = require('fs');
+const os = require('os');
+
+let ifaces = os.networkInterfaces();
+let localIP;
+Object.keys(ifaces).forEach(function (ifname) {
+    var alias = 0;
+
+    ifaces[ifname].forEach(function (iface) {
+        if ('IPv4' !== iface.family || iface.internal !== false) {
+            // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+            return;
+        }
+        localIP = iface.address;
+    });
+
+});
 
 let app = express()
 //app.listen(3000, () => console.log("listening at 3000"))
-app.listen(3000, '192.168.0.156', () => console.log("listening!"));
+app.listen(3000, localIP, () => console.log("listening at: \n http://" + localIP + ":3000"));
 /*app.listen('80', '192.168.0.33', () => {
     console.info(`server started on port 80)`);
 });*/

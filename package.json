@@ -19,6 +19,7 @@
   "author": "Matan Shtepel",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "os": "^0.1.1"
   }
 }
