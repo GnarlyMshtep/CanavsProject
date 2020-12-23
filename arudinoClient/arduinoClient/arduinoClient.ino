@@ -11,7 +11,7 @@ private:
     double len;
     bool draw;
     String dir;
-
+    //look up enum
 public:
     Action(double len0, bool draw0, String dir0)
     {

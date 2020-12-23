@@ -255,7 +255,8 @@
     </div>
 
     <script>
-        -console.log('client js running :)');
+        //add other keyboard shortcuts to action creation
+        console.log('client js running :)');
 
         const addActionButt = document.querySelector(".form-add-action-butt");
         const launchActionsButt = document.querySelector(".run-actions-butt");
@@ -290,6 +291,9 @@
         addActionButt.addEventListener('click', addAction, false);
         launchActionsButt.addEventListener('click', launchActions, false);
         actDispBox.addEventListener('click', deleteEvent, false)
+        document.addEventListener('keydown', e => e.code == "KeyA" ? addActionButt.click() : null);
+        document.addEventListener('keydown', e => e.code == "KeyE" ? launchActionsButt.click() : null);
+
         //able deletion of action
 
         function deleteEvent(e) {
@@ -324,19 +328,35 @@
                 await confirmation that its done
                 send the second
             */
-
+            //alert(stringifyActions(actions));
             const options = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(actions)
+                body: JSON.stringify({
+                    strData: String(actions.length) + "&" + stringifyActions(actions),
+                    data: actions,
+                    length: actions.length
+                })
             };
 
-            alert("sending your data to the server right now for execution!")
-            response = await fetch('/launchActions', options);
-            alert(response)
+            if (window.confirm("Would you like to send your actions to execution?")) {
+                alert("Okay, sending: " + options.body);
+                const response = await fetch('/launchActions', options);
+                const json = await response.json()
+                console.log(json);
+            }
 
+        }
+
+        function stringifyActions(actions) {
+            let str = ""
+            for (let i = 0; i < actions.length; i++) {
+                str += actions[i].stringify();
+            }
+
+            return str
         }
 
         function getFormData() {
@@ -408,7 +428,7 @@
                 this.len = length0;
                 this.draw = draw0;
                 this.direc = direction0;
-                this.drawStr = this.draw ? "DRAW" : "NO DRAW";
+                this.drawStr = this.draw ? "DRAW" : "NO-DRAW";
             }
 
             toPost() {
@@ -456,21 +476,20 @@
     `
             }
 
+            stringify() {
+                return (this.len + "," + this.draw + "," + this.direc + ",").toLowerCase()
+            }
         }
+        /*
+        if ('geolocation' in navigator) {
+            console.log('geolocation available');
+            navigator.geolocation.getCurrentPosition(position => {
+                lat = position.coords.latitude;
+                lon = position.coords.longitude;
+                console.log(lat, lon);
+            });
 
-        /* 
-        <div class="action-box">
-            <!--later wanna add a way to rearraneg-->
-            <span class="action-num">1</span>
-            <span class="delete-action-x">X</span>
-
-            <div class="action-desc">
-                <p class="action-draw">DRAW</p>
-                <p class="action-len">5 CM</p>
-                <p class="action-direc">UP</p>
-            </div>
-        </div>
-        */
+        }*/
     </script>
 </body>
 

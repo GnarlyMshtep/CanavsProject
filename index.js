@@ -1,7 +1,6 @@
 const express = require('express');
-const fs = require('fs');
 const os = require('os');
-
+/*find Ipv4 adress to host server at*/
 let ifaces = os.networkInterfaces();
 let localIP;
 Object.keys(ifaces).forEach(function (ifname) {
@@ -19,7 +18,7 @@ Object.keys(ifaces).forEach(function (ifname) {
 
 let app = express()
 //app.listen(3000, () => console.log("listening at 3000"))
-app.listen(3000, localIP, () => console.log("listening at: \n http://" + localIP + ":3000"));
+app.listen(3000, localIP, () => console.log("listening at: \nhttp://" + localIP + ":3000"));
 /*app.listen('80', '192.168.0.33', () => {
     console.info(`server started on port 80)`);
 });*/
@@ -61,6 +60,7 @@ app.post('/launchActions', function (request, response) {
     });*/
 });
 
+//ARDUINO GET REQUEST
 app.get('/getAction', function (request, response) {
     response.send(getLatestUnusedResponse()); //send strData of latest unused action
 });

@@ -1,0 +1,16 @@
+SET UP A GITHUB REPO
+
+Hardware{
+    1) Decide on precise canvas dimensions (width, length)
+    2) What is the thickness of drawing tool? (the tip)
+    3) What is the smallest vector that works
+    4) Set up the translate to the origin system 
+}
+
+Software{
+    1) Set up new site 
+        -Canvas tool included
+    2) Find a way to vectorise the drawing 
+        -have it tell me the position every x time?
+    3) Take a look at Dang's arduino code (optimize, understand, OOP, etc)
+}
